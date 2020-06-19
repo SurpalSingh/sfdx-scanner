@@ -6,7 +6,11 @@ import {FileHandler} from '../util/FileHandler';
 import * as PrettyPrinter from '../util/PrettyPrinter';
 import * as JreSetupManager from './../JreSetupManager';
 import {OutputProcessor} from './OutputProcessor';
-import {PMD_LIB, PMD_VERSION, PmdSupport} from './PmdSupport';
+import {PmdSupport} from './PmdSupport';
+import {Config} from '../util/Config';
+import {Controller} from '../../ioc.config';
+import {PmdEngine} from './PmdEngine';
+import {DefaultJarDeriver} from './DefaultJarDeriver';
 import path = require('path');
 
 Messages.importMessagesDirectory(__dirname);
@@ -14,7 +18,7 @@ const messages = Messages.loadMessages('@salesforce/sfdx-scanner', 'EventKeyTemp
 
 // Here, current dir __dirname = <base_dir>/sfdx-scanner/src/lib/pmd
 const PMD_CATALOGER_LIB = path.join(__dirname, '..', '..', '..', 'dist', 'pmd-cataloger', 'lib');
-const SUPPORTED_LANGUAGES = ['apex', 'javascript'];
+const DEFAULT_SUPPORTED_LANGUAGES = ['apex', 'javascript'];
 const MAIN_CLASS = 'sfdc.sfdx.scanner.pmd.Main';
 const PMD_CATALOG_FILE = 'PmdCatalog.json';
 
@@ -23,6 +27,7 @@ export class PmdCatalogWrapper extends PmdSupport {
 	private outputProcessor: OutputProcessor;
 	private logger: Logger; // TODO: add relevant trace logs
 	private initialized: boolean;
+	private config: Config;
 
 	protected async init(): Promise<void> {
 		if (this.initialized) {
@@ -30,7 +35,7 @@ export class PmdCatalogWrapper extends PmdSupport {
 		}
 		this.logger = await Logger.child('PmdCatalogWrapper');
 		this.outputProcessor = await OutputProcessor.create({});
-
+		this.config = await Controller.getConfig();
 		this.initialized = true;
 	}
 
@@ -94,10 +99,11 @@ export class PmdCatalogWrapper extends PmdSupport {
 		const pathSetMap = new Map<string, Set<string>>();
 
 		const customPathEntries = await this.getCustomRulePathEntries();
+		const supportedLanguages = await this.config.getEngineConfig(PmdEngine.NAME).supportedLanguages || DEFAULT_SUPPORTED_LANGUAGES;
 
-		// For each supported language, add path to PMD's inbuilt rules
-		SUPPORTED_LANGUAGES.forEach((language) => {
-			const pmdJarName = PmdCatalogWrapper.derivePmdJarName(language);
+
+		supportedLanguages.forEach((language) => {
+			const pmdJarName = DefaultJarDeriver.deriveDefaultPmdJar(language);
 			const customPathSet = customPathEntries ? customPathEntries.get(language) : null;
 			let pathSet = pathSetMap.get(language);
 			if (!pathSet) {
@@ -114,14 +120,6 @@ export class PmdCatalogWrapper extends PmdSupport {
 
 		this.logger.trace(`Found PMD rule paths: ${PrettyPrinter.stringifyMapofSets(pathSetMap)}`);
 		return pathSetMap;
-	}
-
-
-	/**
-	 * PMD library holds the same naming structure for each language
-	 */
-	private static derivePmdJarName(language: string): string {
-		return path.join(PMD_LIB, "pmd-" + language + "-" + PMD_VERSION + ".jar");
 	}
 
 	/**
