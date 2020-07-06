@@ -49,7 +49,7 @@ export class DefaultRuleManager implements RuleManager {
 		return this.catalog.getRulesMatchingFilters(filters);
 	}
 
-	async runRulesMatchingCriteria(filters: RuleFilter[], targets: string[], format: OUTPUT_FORMAT, engineOptions: Map<string, string>): Promise<string | { columns; rows }> {
+	async runRulesMatchingCriteria(filters: RuleFilter[], targets: string[], format: OUTPUT_FORMAT, engineOptions?: Map<string, string>): Promise<string | { columns; rows }> {
 		let results: RuleResult[] = [];
 
 		// Derives rules from our filters to feed the engines.

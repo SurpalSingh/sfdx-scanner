@@ -95,7 +95,7 @@ export class TypescriptEslintStrategy implements EslintStrategy {
 	}
 
 	/* eslint-disable @typescript-eslint/no-explicit-any */
-	async getRunConfig(engineOptions: Map<string, string>): Promise<Record<string, any>> {
+	async getRunConfig(engineOptions?: Map<string, string>): Promise<Record<string, any>> {
 		const tsconfigPath = await this.findTsconfig(engineOptions);
 
 		// Alert the user we found a config file, if --verbose
@@ -136,7 +136,7 @@ export class TypescriptEslintStrategy implements EslintStrategy {
 	 * Try to find a tsconfig.json in the current working directory or in the engineOptions.
 	 * Throw an error if exactly one tsconfig.json file can't be found.
 	 */
-	async findTsconfig(engineOptions: Map<string, string>): Promise<string> {
+	async findTsconfig(engineOptions?: Map<string, string>): Promise<string> {
 		const cwd = path.resolve();
 		const tsconfigFromWorkingDirectory = await this.checkWorkingDirectoryForTsconfig();
 		const tsConfigFromOptions = await this.checkEngineOptionsForTsconfig(engineOptions);
@@ -163,7 +163,10 @@ export class TypescriptEslintStrategy implements EslintStrategy {
 	 * engineOptions doesn't specify a tsconfig.json value.
 	 * Throw an error if the file specified in engineOptions is invalid for any reason.
 	 */
-	protected async checkEngineOptionsForTsconfig(engineOptions: Map<string, string>): Promise<string> {
+	protected async checkEngineOptionsForTsconfig(engineOptions?: Map<string, string>): Promise<string> {
+		if (engineOptions == null) {
+			return null;
+		}
 		const tsConfigFromOptions = engineOptions.get(TYPESCRIPT_ENGINE_OPTIONS.TSCONFIG);
 
 		if (tsConfigFromOptions != null) {

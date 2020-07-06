@@ -17,7 +17,6 @@ class TestHarnessEngine extends BaseEslintEngine {
 }
 
 const MockStrategy: EslintStrategy = Mockito.mock<EslintStrategy>();
-const EMPTY_ENGINE_OPTIONS = new Map<string, string>();
 
 describe('Tests for BaseEslintEngine', () => {
 	describe('Tests for run()', () => {
@@ -37,8 +36,7 @@ describe('Tests for BaseEslintEngine', () => {
 				const results = await engine.run(
 					[getDummyRuleGroup()],
 					[getDummyRule()],
-					[], // no target
-					EMPTY_ENGINE_OPTIONS
+					[] // no target
 				);
 
 				expect(results).to.be.empty;
@@ -56,8 +54,7 @@ describe('Tests for BaseEslintEngine', () => {
 				await engine.run(
 					[getDummyRuleGroup()],
 					[getDummyRule()],
-					[target],
-					EMPTY_ENGINE_OPTIONS
+					[target]
 				);
 
 				Mockito.verify(StaticDependenciesMock.resolveTargetPath(target.target)).called();
@@ -85,8 +82,7 @@ describe('Tests for BaseEslintEngine', () => {
 				const results = await engine.run(
 					[getDummyRuleGroup()],
 					[], // no rules
-					[getDummyTarget(true)],
-					EMPTY_ENGINE_OPTIONS
+					[getDummyTarget(true)]
 				);
 
 				expect(results).to.be.empty;
@@ -103,8 +99,7 @@ describe('Tests for BaseEslintEngine', () => {
 				const results = await engine.run(
 					[getDummyRuleGroup()],
 					[irrelevantRule],
-					[getDummyTarget(true)],
-					EMPTY_ENGINE_OPTIONS
+					[getDummyTarget(true)]
 				);
 
 				expect(results).to.be.empty;
@@ -137,8 +132,7 @@ describe('Tests for BaseEslintEngine', () => {
 					const results = await engine.run(
 						[getDummyRuleGroup()],
 						[getDummyRule()],
-						[target],
-						EMPTY_ENGINE_OPTIONS
+						[target]
 					);
 
 					// verify results structure and content
