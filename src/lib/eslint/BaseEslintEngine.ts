@@ -45,15 +45,27 @@ export class StaticDependencies {
 		// From https://eslint.org/docs/developer-guide/nodejs-api:
 		// options.baseConfig. Configuration object, extended by all configurations used with this instance.
 		// You can use this option to define the default settings that will be used if your configuration files don't configure it.
-		config["baseConfig"] = {
-			// Include the following environment variables in order to support the objects declared in the comment
-			"env": {
-				"es6": true, // Map
-				"node": true, // process
-				"browser": true, // document
-				"webextensions": true // chrome
-			}
+
+		// If the config doesn't already have a `baseConfig` with an `env`, we'll need to add one.
+		config['baseConfig'] = config['baseConfig'] || {'env': {}};
+		// By default, we want to support the following environmental variables.
+		const defaultEnvVars = {
+			'es6': true,          // `Map` class
+			'node': true,         // `process` global
+			'browser': true,      // `document` global
+			'webextensions': true // Chrome
 		};
+		if (!config['baseConfig']) {
+			// If there's no baseConfig property, set one.
+			config['baseConfig'] = {
+				'env': defaultEnvVars
+			}
+		} else {
+			// Otherwise, we'll potentially need to modify the provided baseConfig. We can merge two objects by using the
+			// spread syntax (...x), and by supplying the defaults as the first argument, we make it so they'll be overridden
+			// by any properties with the same names that already exist.
+			config['baseConfig']['env'] = {...defaultEnvVars, ...config['baseConfig']['env']};
+		}
 		return new CLIEngine(config);
 	}
 
