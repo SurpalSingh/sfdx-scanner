@@ -178,9 +178,9 @@ workflows:
       - unpackaged-sanity:
           requires:
             - build
-		  filters:
-			  branches:
-				  ignore: /.*/
+          filters:
+            branches:
+              ignore: /.*/
       - tmp-packaged-san:
           requires:
             - build
