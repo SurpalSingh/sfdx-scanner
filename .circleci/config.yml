@@ -110,6 +110,32 @@ jobs:
       - store_test_results:
           path: test-results
 
+  tmp-packaged-san:
+	  executor:
+		  name: win/default # executor type
+		  size: "medium"
+
+	  steps:
+		  - checkout
+		  - run:
+				name: "install sfdx-cli"
+		  		shell: cmd.exe
+				command: npm install -g sfdx-cli
+		  - run:
+				name: "Install plugin"
+		  		shell: cmd.exe
+				command: echo y | sfdx:plugins:install --force @salesforce/sfdx-scanner
+		  - run:
+				name: "list rules"
+		  		command: sfdx scanner:rule:list
+		  - run:
+				name: "run rules"
+				working_directory: test\projects\app
+		  		command: sfdx scanner:run --target force-app --format junit --outfile ..\..\..\test-results\app.xml
+
+		- store_test_results:
+			  path: test-results
+
   auto-merge-release:
     <<: *defaults
     steps:
@@ -153,6 +179,12 @@ workflows:
       - unpackaged-sanity:
           requires:
             - build
+		  filters:
+			  branches:
+				  ignore: /.*/
+	  - tmp-packaged-san:
+			requires:
+				- build
       - publish-latest:
           # This job should only run after 'build' finishes successfully.
           requires:
