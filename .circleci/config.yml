@@ -124,7 +124,7 @@ jobs:
         - run:
             name: "Install plugin"
             shell: cmd.exe
-            command: echo y | sfdx:plugins:install --force @salesforce/sfdx-scanner
+            command: echo y | sfdx plugins:install --force @salesforce/sfdx-scanner
         - run:
             name: "list rules"
             command: sfdx scanner:rule:list
