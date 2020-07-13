@@ -115,7 +115,7 @@ jobs:
         name: win/default # executor type
         size: "medium"
 
-	  steps:
+      steps:
         - checkout
         - run:
             name: "install sfdx-cli"
