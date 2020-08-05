@@ -36,23 +36,6 @@ jobs:
           root: ~/repo
           paths: .
 
-      # UNIT TESTS
-      - run:
-          name: test
-          command: yarn test --reporter mocha-junit-reporter --reporter-option mochaFile=test-results/mocha/test-results.xml
-          when: always
-
-      - run:
-          name: eslint
-          command: yarn lint --format junit --output-file test-results/eslint/eslint.xml
-          when: always
-
-      - store_test_results:
-          path: test-results
-
-      - store_artifacts: # upload test coverage as artifact.
-          path: test-coverage
-
   self-evaluation:
     executor:
       name: win/default # executor type
@@ -63,10 +46,10 @@ jobs:
           at: C:\repo
 
       - store_test_results:
-          path: test-results
+          path: testres
 
       - store_artifacts:
-          path: test-results
+          path: testres
 
   unpackaged-sanity:
     executor:
