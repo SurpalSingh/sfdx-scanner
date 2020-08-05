@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testsuite package="org.eslint" time="0" tests="22" errors="22"
+			   name="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation.js">
+		<testcase time="0" name="org.eslint.no-unused-vars"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="&apos;objType&apos; is defined but never used.">
+			<![CDATA[line 2, col 25, Error - &apos;objType&apos; is defined but never used. (no-unused-vars)]]></failure>
+			<failure message="&apos;beep&apos; is defined but never used.">
+				<![CDATA[line 2, col 25, Error - &apos;beeop&apos; is defined but never used. (no-unused-vars)]]></failure>
+		</testcase>
+		<testcase time="0" name="org.eslint.no-unused-vars"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="&apos;o&apos; is defined but never used.">
+				<![CDATA[line 6, col 12, Error - &apos;o&apos; is defined but never used. (no-unused-vars)]]></failure>
+		</testcase>
+		<testcase time="0" name="org.eslint.no-unused-vars"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="&apos;z&apos; is assigned a value but never used.">
+				<![CDATA[line 15, col 5, Error - &apos;z&apos; is assigned a value but never used. (no-unused-vars)]]></failure>
+		</testcase>
+		<testcase time="0" name="org.eslint.no-unused-vars"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="&apos;x&apos; is assigned a value but never used.">
+				<![CDATA[line 21, col 11, Error - &apos;x&apos; is assigned a value but never used. (no-unused-vars)]]></failure>
+		</testcase>
+		<testcase time="0" name="org.eslint.insert-crud-check"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="Flow insertWithInsecureTry performs insert without prior CRUD check">
+				<![CDATA[line 23, col 5, Error - Flow insertWithInsecureTry performs insert without prior CRUD check (insert-crud-check)]]></failure>
+		</testcase>
+		<testcase time="0" name="org.eslint.no-unused-vars"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="&apos;z&apos; is assigned a value but never used.">
+				<![CDATA[line 28, col 5, Error - &apos;z&apos; is assigned a value but never used. (no-unused-vars)]]></failure>
+		</testcase>
+		<testcase time="0" name="org.eslint.insert-crud-check"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="Flow insertWithSecureTry performs insert without prior CRUD check">
+				<![CDATA[line 36, col 5, Error - Flow insertWithSecureTry performs insert without prior CRUD check (insert-crud-check)]]></failure>
+		</testcase>
+		<testcase time="0" name="org.eslint.no-constant-condition"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="Unexpected constant condition.">
+				<![CDATA[line 40, col 9, Error - Unexpected constant condition. (no-constant-condition)]]></failure>
+		</testcase>
+		<testcase time="0" name="org.eslint.no-constant-condition"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="Unexpected constant condition.">
+				<![CDATA[line 42, col 16, Error - Unexpected constant condition. (no-constant-condition)]]></failure>
+		</testcase>
+		<testcase time="0" name="org.eslint.no-unused-vars"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="&apos;x&apos; is assigned a value but never used.">
+				<![CDATA[line 45, col 11, Error - &apos;x&apos; is assigned a value but never used. (no-unused-vars)]]></failure>
+		</testcase>
+		<testcase time="0" name="org.eslint.insert-crud-check"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="Flow insertWithInsecureIf performs insert without prior CRUD check">
+				<![CDATA[line 47, col 5, Error - Flow insertWithInsecureIf performs insert without prior CRUD check (insert-crud-check)]]></failure>
+		</testcase>
+		<testcase time="0" name="org.eslint.no-constant-condition"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="Unexpected constant condition.">
+				<![CDATA[line 51, col 9, Error - Unexpected constant condition. (no-constant-condition)]]></failure>
+		</testcase>
+		<testcase time="0" name="org.eslint.no-constant-condition"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="Unexpected constant condition.">
+				<![CDATA[line 53, col 16, Error - Unexpected constant condition. (no-constant-condition)]]></failure>
+		</testcase>
+		<testcase time="0" name="org.eslint.insert-crud-check"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="Flow insertWithSecureIf performs insert without prior CRUD check">
+				<![CDATA[line 58, col 5, Error - Flow insertWithSecureIf performs insert without prior CRUD check (insert-crud-check)]]></failure>
+		</testcase>
+		<testcase time="0" name="org.eslint.no-unused-vars"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="&apos;objs&apos; is defined but never used.">
+				<![CDATA[line 61, col 28, Error - &apos;objs&apos; is defined but never used. (no-unused-vars)]]></failure>
+		</testcase>
+		<testcase time="0" name="org.eslint.no-constant-condition"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="Unexpected constant condition.">
+				<![CDATA[line 62, col 9, Error - Unexpected constant condition. (no-constant-condition)]]></failure>
+		</testcase>
+		<testcase time="0" name="org.eslint.no-unused-vars"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="&apos;objs&apos; is defined but never used.">
+				<![CDATA[line 70, col 30, Error - &apos;objs&apos; is defined but never used. (no-unused-vars)]]></failure>
+		</testcase>
+		<testcase time="0" name="org.eslint.no-constant-condition"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="Unexpected constant condition.">
+				<![CDATA[line 71, col 9, Error - Unexpected constant condition. (no-constant-condition)]]></failure>
+		</testcase>
+		<testcase time="0" name="org.eslint.no-undef"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="&apos;console&apos; is not defined.">
+				<![CDATA[line 74, col 7, Error - &apos;console&apos; is not defined. (no-undef)]]></failure>
+		</testcase>
+		<testcase time="0" name="org.eslint.insert-crud-check"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="Flow nestedInsertWithInsecureIf-&gt;_doInsert performs insert without prior CRUD check">
+				<![CDATA[line 80, col 5, Error - Flow nestedInsertWithInsecureIf-&gt;_doInsert performs insert without prior CRUD check (insert-crud-check)]]></failure>
+		</testcase>
+		<testcase time="0" name="org.eslint.no-undef"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="&apos;console&apos; is not defined.">
+				<![CDATA[line 86, col 5, Error - &apos;console&apos; is not defined. (no-undef)]]></failure>
+		</testcase>
+		<testcase time="0" name="org.eslint.no-undef"
+				  classname="/Users/jfeingold/Code/esp/samples/InsecureInsertSimulation">
+			<failure message="&apos;console&apos; is not defined.">
+				<![CDATA[line 90, col 5, Error - &apos;console&apos; is not defined. (no-undef)]]></failure>
+		</testcase>
+	</testsuite>
+</testsuites>
