@@ -1,0 +1,135 @@
+<testsuites tests="6" failures="14">
+    <testsuite tests="6" failures="14">
+        
+      <testcase id="/Users/jfeingold/Code/sfdx-scanner/src/lib/CustomRulePathManager.ts" name="/Users/jfeingold/Code/sfdx-scanner/src/lib/CustomRulePathManager.ts">
+          
+            <failure message="/Users/jfeingold/Code/sfdx-scanner/src/lib/CustomRulePathManager.ts: 106 Async method 'getAllPaths' has no 'await' expression." type="2">
+2: Async method 'getAllPaths' has no 'await' expression.
+Category: Best Practices - @typescript-eslint/require-await
+File: /Users/jfeingold/Code/sfdx-scanner/src/lib/CustomRulePathManager.ts
+Line: 106
+Column: 2
+URL: https://github.com/typescript-eslint/typescript-eslint/blob/v2.33.0/packages/eslint-plugin/docs/rules/require-await.md
+            </failure>
+            <failure message="/Users/jfeingold/Code/sfdx-scanner/src/lib/CustomRulePathManager.ts: 169 Async method 'getRulePathEntries' has no 'await' expression." type="2">
+2: Async method 'getRulePathEntries' has no 'await' expression.
+Category: Best Practices - @typescript-eslint/require-await
+File: /Users/jfeingold/Code/sfdx-scanner/src/lib/CustomRulePathManager.ts
+Line: 169
+Column: 2
+URL: https://github.com/typescript-eslint/typescript-eslint/blob/v2.33.0/packages/eslint-plugin/docs/rules/require-await.md
+            </failure>
+            <failure message="/Users/jfeingold/Code/sfdx-scanner/src/lib/CustomRulePathManager.ts: 194 This assertion is unnecessary since it does not change the type of the expression." type="2">
+2: This assertion is unnecessary since it does not change the type of the expression.
+Category: Best Practices - @typescript-eslint/no-unnecessary-type-assertion
+File: /Users/jfeingold/Code/sfdx-scanner/src/lib/CustomRulePathManager.ts
+Line: 194
+Column: 19
+URL: https://github.com/typescript-eslint/typescript-eslint/blob/v2.33.0/packages/eslint-plugin/docs/rules/no-unnecessary-type-assertion.md
+            </failure>
+      </testcase>
+      <testcase id="/Users/jfeingold/Code/sfdx-scanner/src/lib/JreSetupManager.ts" name="/Users/jfeingold/Code/sfdx-scanner/src/lib/JreSetupManager.ts">
+          
+            <failure message="/Users/jfeingold/Code/sfdx-scanner/src/lib/JreSetupManager.ts: 120 Use the `RegExp#exec()` method instead." type="2">
+2: Use the `RegExp#exec()` method instead.
+Category: Best Practices - @typescript-eslint/prefer-regexp-exec
+File: /Users/jfeingold/Code/sfdx-scanner/src/lib/JreSetupManager.ts
+Line: 120
+Column: 24
+URL: https://github.com/typescript-eslint/typescript-eslint/blob/v2.33.0/packages/eslint-plugin/docs/rules/prefer-regexp-exec.md
+            </failure>
+      </testcase>
+      <testcase id="/Users/jfeingold/Code/sfdx-scanner/src/lib/eslint/JavascriptEslintStrategy.ts" name="/Users/jfeingold/Code/sfdx-scanner/src/lib/eslint/JavascriptEslintStrategy.ts">
+          
+            <failure message="/Users/jfeingold/Code/sfdx-scanner/src/lib/eslint/JavascriptEslintStrategy.ts: 58 Async method 'getRunConfig' has no 'await' expression." type="2">
+2: Async method 'getRunConfig' has no 'await' expression.
+Category: Best Practices - @typescript-eslint/require-await
+File: /Users/jfeingold/Code/sfdx-scanner/src/lib/eslint/JavascriptEslintStrategy.ts
+Line: 58
+Column: 2
+URL: https://github.com/typescript-eslint/typescript-eslint/blob/v2.33.0/packages/eslint-plugin/docs/rules/require-await.md
+            </failure>
+            <failure message="/Users/jfeingold/Code/sfdx-scanner/src/lib/eslint/JavascriptEslintStrategy.ts: 58 'engineOptions' is defined but never used." type="2">
+2: 'engineOptions' is defined but never used.
+Category: Variables - no-unused-vars
+File: /Users/jfeingold/Code/sfdx-scanner/src/lib/eslint/JavascriptEslintStrategy.ts
+Line: 58
+Column: 21
+URL: https://eslint.org/docs/rules/no-unused-vars
+            </failure>
+      </testcase>
+      <testcase id="/Users/jfeingold/Code/sfdx-scanner/src/lib/pmd/PmdEngine.ts" name="/Users/jfeingold/Code/sfdx-scanner/src/lib/pmd/PmdEngine.ts">
+          
+            <failure message="/Users/jfeingold/Code/sfdx-scanner/src/lib/pmd/PmdEngine.ts: 38 'path' is defined but never used." type="2">
+2: 'path' is defined but never used.
+Category: Variables - no-unused-vars
+File: /Users/jfeingold/Code/sfdx-scanner/src/lib/pmd/PmdEngine.ts
+Line: 38
+Column: 20
+URL: https://eslint.org/docs/rules/no-unused-vars
+            </failure>
+            <failure message="/Users/jfeingold/Code/sfdx-scanner/src/lib/pmd/PmdEngine.ts: 71 'engineOptions' is defined but never used." type="2">
+2: 'engineOptions' is defined but never used.
+Category: Variables - no-unused-vars
+File: /Users/jfeingold/Code/sfdx-scanner/src/lib/pmd/PmdEngine.ts
+Line: 71
+Column: 82
+URL: https://eslint.org/docs/rules/no-unused-vars
+            </failure>
+      </testcase>
+      <testcase id="/Users/jfeingold/Code/sfdx-scanner/src/lib/services/LocalCatalog.ts" name="/Users/jfeingold/Code/sfdx-scanner/src/lib/services/LocalCatalog.ts">
+          
+            <failure message="/Users/jfeingold/Code/sfdx-scanner/src/lib/services/LocalCatalog.ts: 48 Async method 'getRuleGroupsMatchingFilters' has no 'await' expression." type="2">
+2: Async method 'getRuleGroupsMatchingFilters' has no 'await' expression.
+Category: Best Practices - @typescript-eslint/require-await
+File: /Users/jfeingold/Code/sfdx-scanner/src/lib/services/LocalCatalog.ts
+Line: 48
+Column: 2
+URL: https://github.com/typescript-eslint/typescript-eslint/blob/v2.33.0/packages/eslint-plugin/docs/rules/require-await.md
+            </failure>
+            <failure message="/Users/jfeingold/Code/sfdx-scanner/src/lib/services/LocalCatalog.ts: 78 Async method 'getRulesMatchingFilters' has no 'await' expression." type="2">
+2: Async method 'getRulesMatchingFilters' has no 'await' expression.
+Category: Best Practices - @typescript-eslint/require-await
+File: /Users/jfeingold/Code/sfdx-scanner/src/lib/services/LocalCatalog.ts
+Line: 78
+Column: 2
+URL: https://github.com/typescript-eslint/typescript-eslint/blob/v2.33.0/packages/eslint-plugin/docs/rules/require-await.md
+            </failure>
+      </testcase>
+      <testcase id="/Users/jfeingold/Code/sfdx-scanner/src/lib/util/Config.ts" name="/Users/jfeingold/Code/sfdx-scanner/src/lib/util/Config.ts">
+          
+            <failure message="/Users/jfeingold/Code/sfdx-scanner/src/lib/util/Config.ts: 117 Avoid referencing unbound methods which may cause unintentional scoping of `this`." type="2">
+2: Avoid referencing unbound methods which may cause unintentional scoping of `this`.
+Category: Best Practices - @typescript-eslint/unbound-method
+File: /Users/jfeingold/Code/sfdx-scanner/src/lib/util/Config.ts
+Line: 117
+Column: 73
+URL: https://github.com/typescript-eslint/typescript-eslint/blob/v2.33.0/packages/eslint-plugin/docs/rules/unbound-method.md
+            </failure>
+            <failure message="/Users/jfeingold/Code/sfdx-scanner/src/lib/util/Config.ts: 118 This assertion is unnecessary since it does not change the type of the expression." type="2">
+2: This assertion is unnecessary since it does not change the type of the expression.
+Category: Best Practices - @typescript-eslint/no-unnecessary-type-assertion
+File: /Users/jfeingold/Code/sfdx-scanner/src/lib/util/Config.ts
+Line: 118
+Column: 10
+URL: https://github.com/typescript-eslint/typescript-eslint/blob/v2.33.0/packages/eslint-plugin/docs/rules/no-unnecessary-type-assertion.md
+            </failure>
+            <failure message="/Users/jfeingold/Code/sfdx-scanner/src/lib/util/Config.ts: 122 Avoid referencing unbound methods which may cause unintentional scoping of `this`." type="2">
+2: Avoid referencing unbound methods which may cause unintentional scoping of `this`.
+Category: Best Practices - @typescript-eslint/unbound-method
+File: /Users/jfeingold/Code/sfdx-scanner/src/lib/util/Config.ts
+Line: 122
+Column: 69
+URL: https://github.com/typescript-eslint/typescript-eslint/blob/v2.33.0/packages/eslint-plugin/docs/rules/unbound-method.md
+            </failure>
+            <failure message="/Users/jfeingold/Code/sfdx-scanner/src/lib/util/Config.ts: 123 This assertion is unnecessary since it does not change the type of the expression." type="2">
+2: This assertion is unnecessary since it does not change the type of the expression.
+Category: Best Practices - @typescript-eslint/no-unnecessary-type-assertion
+File: /Users/jfeingold/Code/sfdx-scanner/src/lib/util/Config.ts
+Line: 123
+Column: 10
+URL: https://github.com/typescript-eslint/typescript-eslint/blob/v2.33.0/packages/eslint-plugin/docs/rules/no-unnecessary-type-assertion.md
+            </failure>
+      </testcase>
+    </testsuite>
+</testsuites>
