@@ -75,8 +75,8 @@ jobs:
       - run:
           name: "Fail if problems found"
           command: |
-            test -f .\test-results\app.xml && exit 1
-            
+            test -f .\test-results\ap.xml && exit 1
+
       - store_test_results:
           path: test-results
 
