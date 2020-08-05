@@ -50,6 +50,7 @@ jobs:
           command: |
               set +e
               .\bin\run.cmd scanner:run --target .\src --format junit
+              exit 1
 
       - store_test_results:
           path: testres
