@@ -45,6 +45,12 @@ jobs:
       - attach_workspace:
           at: C:\repo
 
+      - run:
+          name: "self-eval"
+          command: |
+              set +e
+              .\bin\run.cmd scanner:run --target .\src --format junit
+
       - store_test_results:
           path: testres
 
