@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testsuite package="org.eslint" time="0" tests="2" errors="2" name="/Users/jfeingold/eslint-samples/multiple-violations1.js">
+		<testcase time="0" name="org.eslint.no-unused-vars" classname="/Users/jfeingold/eslint-samples/multiple-violations1"><failure message="&apos;unusedParam&apos; is defined but never used."><![CDATA[line 2, col 11, Error - &apos;unusedParam&apos; is defined but never used. (no-unused-vars)]]></failure></testcase>
+		<testcase time="0" name="org.eslint.no-unused-vars" classname="/Users/jfeingold/eslint-samples/multiple-violations1"><failure message="&apos;unusedVar&apos; is assigned a value but never used."><![CDATA[line 3, col 9, Error - &apos;unusedVar&apos; is assigned a value but never used. (no-unused-vars)]]></failure></testcase>
+	</testsuite>
+	<testsuite package="org.eslint" time="0" tests="2" errors="2" name="/Users/jfeingold/eslint-samples/multiple-violations2.js">
+		<testcase time="0" name="org.eslint.no-unused-vars" classname="/Users/jfeingold/eslint-samples/multiple-violations2"><failure message="&apos;unusedParam&apos; is defined but never used."><![CDATA[line 2, col 11, Error - &apos;unusedParam&apos; is defined but never used. (no-unused-vars)]]></failure></testcase>
+		<testcase time="0" name="org.eslint.no-unused-vars" classname="/Users/jfeingold/eslint-samples/multiple-violations2"><failure message="&apos;unusedVar&apos; is assigned a value but never used."><![CDATA[line 3, col 9, Error - &apos;unusedVar&apos; is assigned a value but never used. (no-unused-vars)]]></failure></testcase>
+	</testsuite>
+</testsuites>

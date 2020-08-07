@@ -59,32 +59,10 @@ jobs:
       - attach_workspace:
           at: ~/repo
 
-      - run: mkdir test-results
-
-      - run:
-          name: "list rules"
-          command: bin/run scanner:rule:list
-
-      - run:
-          name: "self-evaluate"
-          command: |
-            bin/run scanner:run --target ./src --format junit --outfile ./test-results/src.xml
-          # TODO: We'll also need to make it scan the pmd-cataloger folder once we have an easy way of making it target Java.
-          # bin/run scanner:run --target ./pmd-cataloger --format junit --outfile ./test-results/pmd-cataloger.xml
-
-      - run:
-          name: "Fail if problems found"
-          command: |
-            if [ -f ./test-results/src.xml ]
-            then
-            exit 1
-            fi
-            
       - store_test_results:
-          path: test-results
-
+          path: mmm
       - store_artifacts:
-          path: test-results
+          path: mmm
 
   unpackaged-sanity:
     executor:
