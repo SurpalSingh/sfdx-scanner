@@ -1,0 +1,46 @@
+<testsuites>
+	<testsuite name="/Users/jfeingold/eslint-samples/multiple-violations1.js" tests="2" errors="2">
+		<testcase name="/Users/jfeingold/eslint-samples/multiple-violations1.js">
+			<failure message="/Users/jfeingold/eslint-samples/multiple-violations1.js: 2 'unusedParam' is defined but never used." type="2">
+				2: 'unusedParam' is defined but never used.
+				Category: Variables - no-unused-vars
+				File: /Users/jfeingold/eslint-samples/multiple-violations1.js
+				Line: 2
+				Column: 11
+				URL: https://eslint.org/docs/rules/no-unused-vars
+			</failure>
+		</testcase>
+		<testcase name="/Users/jfeingold/eslint-samples/multiple-violations1.js">
+			<failure message="/Users/jfeingold/eslint-samples/multiple-violations1.js: 3 'unusedVar' is assigned a value but never used." type="2">
+				2: 'unusedVar' is assigned a value but never used.
+				Category: Variables - no-unused-vars
+				File: /Users/jfeingold/eslint-samples/multiple-violations1.js
+				Line: 3
+				Column: 9
+				URL: https://eslint.org/docs/rules/no-unused-vars
+			</failure>
+		</testcase>
+	</testsuite>
+	<testsuite name="/Users/jfeingold/eslint-samples/multiple-violations2.js" tests="2" errors="2">
+		<testcase name="/Users/jfeingold/eslint-samples/multiple-violations2.js">
+			<failure message="/Users/jfeingold/eslint-samples/multiple-violations2.js: 2 'unusedParam' is defined but never used." type="2">
+				2: 'unusedParam' is defined but never used.
+				Category: Variables - no-unused-vars
+				File: /Users/jfeingold/eslint-samples/multiple-violations2.js
+				Line: 2
+				Column: 11
+				URL: https://eslint.org/docs/rules/no-unused-vars
+			</failure>
+		</testcase>
+		<testcase name="/Users/jfeingold/eslint-samples/multiple-violations2.js">
+			<failure message="/Users/jfeingold/eslint-samples/multiple-violations2.js: 3 'unusedVar' is assigned a value but never used." type="2">
+				2: 'unusedVar' is assigned a value but never used.
+				Category: Variables - no-unused-vars
+				File: /Users/jfeingold/eslint-samples/multiple-violations2.js
+				Line: 3
+				Column: 9
+				URL: https://eslint.org/docs/rules/no-unused-vars
+			</failure>
+		</testcase>
+	</testsuite>
+</testsuites>
