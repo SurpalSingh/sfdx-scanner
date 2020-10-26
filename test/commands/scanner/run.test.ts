@@ -5,7 +5,6 @@ import fs = require('fs');
 import path = require('path');
 import process = require('process');
 import tildify = require('tildify');
-import events = require('../../../messages/EventKeyTemplates');
 
 Messages.importMessagesDirectory(__dirname);
 const runMessages = Messages.loadMessages('@salesforce/sfdx-scanner', 'run');
@@ -1095,19 +1094,5 @@ describe('scanner:run', function () {
 	// Any commands that specify the --verbose cause subsequent commands to execute as if --verbose was specified.
 	// Put all --verbose commands at the end of this file.
 	describe('Verbose tests must come last. Verbose does not reset', () => {
-		setupCommandTest
-			.command(['scanner:run',
-				'--target', path.join('test', 'code-fixtures', 'apex', 'YetAnotherTestClass.cls'),
-				'--format', 'xml',
-				'--verbose'
-			])
-			.it('When the --verbose flag is supplied, info about implicitly run rules is logged', ctx => {
-				// We'll split the output by the <violation> tag, so we can get individual violations.
-				const violations = ctx.stdout.split('<violation');
-				// Before the violations are logged, there should be 16 log runMessages about implicitly included PMD categories.
-				const regex = new RegExp(events.info.categoryImplicitlyRun.replace(/%s/g, '.*'), 'g');
-				const implicitMessages = violations[0].match(regex);
-				expect(implicitMessages || []).to.have.lengthOf(34, `Entries for implicitly added categories from all engines:\n ${JSON.stringify(implicitMessages)}`);
-			});
 	});
 });
