@@ -5,10 +5,6 @@ import {CATALOG_FILE, ENGINE} from '../../../../src/Constants';
 import fs = require('fs');
 import path = require('path');
 import { Controller } from '../../../../src/Controller';
-import { Messages } from '@salesforce/core';
-
-Messages.importMessagesDirectory(__dirname);
-const messages = Messages.loadMessages('@salesforce/sfdx-scanner', 'list');
 
 function getCatalogJson(): { rules: Rule[] } {
 	const sfdxScannerPath = Controller.getSfdxScannerPath();
@@ -104,50 +100,6 @@ describe('scanner:rule:list', () => {
 								return listContentsOverlap(rule.categories, filteredCategories)
 							},
 							`Rule ${rule.name} was included despite being in the wrong category`
-						);
-					});
-				});
-		});
-
-		describe('Test Case: Filtering by ruleset only', () => {
-
-			setupCommandTest
-				.command(['scanner:rule:list', '--ruleset', 'Braces'])
-				.it('--ruleset option shows deprecation warning', ctx => {
-					expect(ctx.stderr).contains(messages.getMessage('rulesetDeprecation'));
-				});
-
-			setupCommandTest
-				.command(['scanner:rule:list', '--ruleset', 'Braces', '--json'])
-				.it('Filtering by a single ruleset returns only the rules in that ruleset', ctx => {
-					// Count how many rules in the catalog fit the criteria.
-					const targetRuleCount = getCatalogJson().rules.filter(rule => rule.rulesets.includes('Braces')).length;
-
-					// Parse the output back into a JSON, and make sure it has the right number of rules.
-					const outputJson = JSON.parse(ctx.stdout);
-					expect(outputJson.result).to.have.lengthOf(targetRuleCount, 'All rules in the desired ruleset should be returned');
-
-					// Make sure that only rules in the right ruleset were returned.
-					outputJson.result.forEach((rule: Rule) => {
-						expect(rule.rulesets).to.contain('Braces', 'Only rules in the desired ruleset should have been returned');
-					});
-				});
-
-			setupCommandTest
-				.command(['scanner:rule:list', '--ruleset', 'ApexUnit,Braces', '--json'])
-				.it('Filtering by multiple rulesets returns any rule in either ruleset', ctx => {
-					// Count how many rules in the catalog fit the criteria.
-					const targetRuleCount = getCatalogJson().rules.filter(rule => rule.rulesets.includes('Braces') || rule.rulesets.includes('ApexUnit')).length;
-
-					// Parse the output back into a JSON, and make sure it has the right number of rules.
-					const outputJson = JSON.parse(ctx.stdout);
-					expect(outputJson.result).to.have.lengthOf(targetRuleCount, 'All rules in both sets should have been returned');
-					// Make sure that only rules in the desired sets were returned.
-					outputJson.result.forEach((rule: Rule) => {
-						expect(rule).to.satisfy((rule) => {
-								return rule.rulesets.includes('Braces') || rule.rulesets.includes('ApexUnit')
-							},
-							`Rule ${rule.name} was included despite being in the wrong ruleset`
 						);
 					});
 				});

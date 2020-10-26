@@ -15,7 +15,6 @@ const messages = Messages.loadMessages('@salesforce/sfdx-scanner', 'list');
 const columns = [messages.getMessage('columnNames.name'),
 				messages.getMessage('columnNames.languages'),
 				messages.getMessage('columnNames.categories'),
-				messages.getMessage('columnNames.rulesets'),
 				messages.getMessage('columnNames.engine')];
 
 export default class List extends ScannerCommand {
@@ -39,14 +38,6 @@ export default class List extends ScannerCommand {
 			char: 'c',
 			description: messages.getMessage('flags.categoryDescription'),
 			longDescription: messages.getMessage('flags.categoryDescriptionLong')
-		}),
-		ruleset: flags.array({
-			char: 'r',
-			deprecated: {
-				messageOverride: messages.getMessage('rulesetDeprecation')
-			},
-			description: messages.getMessage('flags.rulesetDescription'),
-			longDescription: messages.getMessage('flags.rulesetDescriptionLong')
 		}),
 		language: flags.array({
 			char: 'l',
@@ -95,12 +86,9 @@ export default class List extends ScannerCommand {
 
 	/* eslint-disable @typescript-eslint/no-explicit-any */
 	private formatRulesForDisplay(rules: Rule[]): Record<string, any>[] {
-		// Truncate ruleset values
-		const rulesetTruncatedRules = this.truncateRulesetValues(rules);
-
 		// Transform column names to match display
 		const transformedRules = [];
-		rulesetTruncatedRules.forEach(rule => transformedRules.push(this.transformKeysToMatchColumns(rule)));
+		rules.forEach(rule => transformedRules.push(this.transformKeysToMatchColumns(rule)));
 
 		return transformedRules;
 	}
@@ -112,20 +100,7 @@ export default class List extends ScannerCommand {
 		transformedRule[columns[0]] = rule.name;
 		transformedRule[columns[1]] = rule.languages;
 		transformedRule[columns[2]] = rule.categories;
-		transformedRule[columns[3]] = rule.rulesets;
-		transformedRule[columns[4]] = rule.engine;
+		transformedRule[columns[3]] = rule.engine;
 		return transformedRule;
-	}
-
-	private truncateRulesetValues(rules: Rule[]): Rule[] {
-		return rules.map(rule => {
-			const clonedRule = JSON.parse(JSON.stringify(rule));
-
-			// If any of the rule's rulesets have a name longer than 20 characters, we'll truncate it to 15 and append ellipses,
-			// so it doesn't overflow horizontally.
-			clonedRule.rulesets = rule['rulesets'].map(ruleset =>
-				ruleset.length >= 20 ? ruleset.slice(0, 15) + '...' : ruleset);
-			return clonedRule;
-		});
 	}
 }
