@@ -1,15 +1,13 @@
 module.exports = {
 	"commandDescription": "evaluate a selection of rules against a codebase",
 	"commandDescriptionLong": `Scan codebase with all rules by default
-	or with a chosen set of rules if using rulename/category/ruleset filters.
+	or with a chosen set of rules if using rulename/category filters.
 	You can choose the format of output and decide between printing the results directly
 	or as contents of a file that you provide with --outfile flag.`,
 	"flags": {
 		"rulenameDescription": "[description of 'rulename' parameter]",                   // TODO: Change this once the flag is implemented.
 		"categoryDescription": "categor(ies) of rules to run",
 		"categoryDescriptionLong": "One or more categories of rules to run. Multiple values can be specified as a comma-separated list.",
-		"rulesetDescription": "[deprecated] ruleset(s) of rules to run",
-		"rulesetDescriptionLong": "[Deprecated] One or more rulesets to run. Multiple values can be specified as a comma-separated list.",
 		"severityDescription": "[description of 'severity' parameter]",                   // TODO: Change this once the flag is implemented.
 		"excluderuleDescription": "[description of 'exclude-rule' parameter]",            // TODO: Change this once the flag is implemented.
 		"orgDescription": "[description of 'org' parameter]",                             // TODO: Change this once the flag is implemented.
@@ -43,14 +41,9 @@ module.exports = {
 		"sevDetectionSummary": "Detected rule violations of severity %s or lower.",
 		"pleaseSeeAbove": "Please see the logs above."
 	},
-	"rulesetDeprecation": "'ruleset' command parameter is deprecated. Please use 'category' instead",
 	"examples": `Invoking without specifying any rules causes all rules to be run.
 	E.g., $ sfdx scanner:run --format xml --target "somefile.js"
 		Evaluates all rules against somefile.js.
-
-	Specifying multiple categories or rulesets is treated as a logical OR.
-		E.g., $ sfdx scanner:run --format xml --target "somefile.js" --category "Design,Best Practices" --ruleset "Braces"
-			Evaluates all rules in the Design and Best Practices categories, and all rules in the Braces ruleset.
 
 	Wrap globs in quotes.
 		Unix example:    $ sfdx scanner:run --target './**/*.js,!./**/IgnoreMe.js' ...

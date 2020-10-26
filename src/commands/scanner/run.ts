@@ -39,20 +39,12 @@ export default class Run extends ScannerCommand {
 			description: messages.getMessage('flags.categoryDescription'),
 			longDescription: messages.getMessage('flags.categoryDescriptionLong')
 		}),
-		ruleset: flags.array({
-			char: 'r',
-			deprecated: {
-				messageOverride: messages.getMessage('rulesetDeprecation')
-			},
-			description: messages.getMessage('flags.rulesetDescription'),
-			longDescription: messages.getMessage('flags.rulesetDescriptionLong')
-		}),
 		// TODO: After implementing this flag, unhide it.
 		rulename: flags.string({
 			char: 'n',
 			description: messages.getMessage('flags.rulenameDescription'),
 			// If you're specifying by name, it doesn't make sense to let you specify by any other means.
-			exclusive: ['category', 'ruleset', 'severity', 'exclude-rule'],
+			exclusive: ['category', 'severity', 'exclude-rule'],
 			hidden: true
 		}),
 		engine: flags.array({

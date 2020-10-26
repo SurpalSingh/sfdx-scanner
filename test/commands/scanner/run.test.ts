@@ -21,19 +21,20 @@ describe('scanner:run', function () {
 				const violations = xml.split('<violation');
 				// The first list item is going to be the header, so we need to pull that off.
 				violations.shift();
-				// There should be two violations.
-				expect(violations.length).to.equal(2, `Should be two violations detected in the file:\n ${xml}`);
+				expect(violations.length).to.equal(4, `Should be four violations detected in the file:\n ${xml}`);
 				// We'll check each violation in enough depth to be confident that the expected violations were returned in the
 				// expected order.
 				expect(violations[0]).to.match(/line="11".+rule="ApexUnitTestClassShouldHaveAsserts"/);
 				expect(violations[1]).to.match(/line="19".+rule="ApexUnitTestClassShouldHaveAsserts"/);
+				expect(violations[2]).to.match(/line="20".+rule="UnusedLocalVariable"/);
+				expect(violations[3]).to.match(/line="21".+rule="UnusedLocalVariable"/);
 			}
 
 			describe('Test Case: Running rules against a single file', () => {
 				setupCommandTest
 					.command(['scanner:run',
 						'--target', path.join('test', 'code-fixtures', 'apex', 'SomeTestClass.cls'),
-						'--ruleset', 'ApexUnit',
+						'--category', 'Best Practices',
 						'--format', 'xml'
 					])
 					.it('When the file contains violations, they are logged out as an XML', ctx => {
@@ -43,7 +44,7 @@ describe('scanner:run', function () {
 				setupCommandTest
 					.command(['scanner:run',
 						'--target', path.join('.', 'test', 'code-fixtures', 'apex', 'SomeTestClass.cls'),
-						'--ruleset', 'ApexUnit',
+						'--category', 'Best Practices',
 						'--format', 'xml'
 					])
 					.it('Target path may be relative or absolute', ctx => {
@@ -53,7 +54,7 @@ describe('scanner:run', function () {
 				setupCommandTest
 					.command(['scanner:run',
 						'--target', path.join('test', 'code-fixtures', 'apex', 'YetAnotherTestClass.cls'),
-						'--ruleset', 'ApexUnit',
+						'--category', 'Best Practices',
 						'--format', 'xml'
 					])
 					.it('When the file contains no violations, a message is logged to the console', ctx => {
@@ -65,7 +66,7 @@ describe('scanner:run', function () {
 				setupCommandTest
 					.command(['scanner:run',
 						'--target', path.join('test', 'code-fixtures', 'apex', 'SomeTestClass.cls') + ',' + path.join('test', 'code-fixtures', 'apex', 'SomeOtherTestClass.cls'),
-						'--ruleset', 'ApexUnit',
+						'--category', 'Best Practices',
 						'--format', 'xml'
 					])
 					.it('Both files are evaluated, and any violations are logged', ctx => {
@@ -85,11 +86,13 @@ describe('scanner:run', function () {
 
 						const secondFileViolations = results[1].split('<violation');
 						secondFileViolations.shift();
-						expect(secondFileViolations.length).to.equal(2, 'Should be two violations detected in SomeTestClass.cls');
+						expect(secondFileViolations.length).to.equal(4, 'Should be four violations detected in SomeTestClass.cls');
 						// We'll check each violation in enough depth to be confident that the expected violations were returned in the
 						// expected order.
 						expect(secondFileViolations[0]).to.match(/line="11".+rule="ApexUnitTestClassShouldHaveAsserts"/);
 						expect(secondFileViolations[1]).to.match(/line="19".+rule="ApexUnitTestClassShouldHaveAsserts"/);
+						expect(secondFileViolations[2]).to.match(/line="20".+rule="UnusedLocalVariable"/);
+						expect(secondFileViolations[3]).to.match(/line="21".+rule="UnusedLocalVariable"/);
 					});
 			});
 
@@ -97,7 +100,7 @@ describe('scanner:run', function () {
 				setupCommandTest
 					.command(['scanner:run',
 						'--target', path.join('test', 'code-fixtures', 'apex'),
-						'--ruleset', 'ApexUnit',
+						'--category', 'Best Practices',
 						'--format', 'xml'
 					])
 					.it('Any violations in the folder are logged as an XML', ctx => {
@@ -106,16 +109,18 @@ describe('scanner:run', function () {
 						// The first list item is going to be the header, so we need to pull that off.
 						results.shift();
 						// Verify that each set of violations corresponds to the expected file.
-						expect(results.length).to.equal(3, 'Only three files should have violated the rules');
+						expect(results.length).to.equal(4, 'Only four files should have violated the rules');
 						expect(results[0]).to.match(/file="test(\/|\\)code-fixtures(\/|\\)apex(\/|\\)AnotherTestClass.cls"/);
 						expect(results[1]).to.match(/file="test(\/|\\)code-fixtures(\/|\\)apex(\/|\\)SomeOtherTestClass.cls"/);
 						expect(results[2]).to.match(/file="test(\/|\\)code-fixtures(\/|\\)apex(\/|\\)SomeTestClass.cls"/);
+						expect(results[3]).to.match(/file="test(\/|\\)code-fixtures(\/|\\)apex(\/|\\)SoqlInLoop.cls"/);
 
 						// Now, split each file's violations by the <violation> tag so we can inspect individual violations.
 						const firstFileViolations = results[0].split('<violation');
 						firstFileViolations.shift();
-						expect(firstFileViolations.length).to.equal(1, 'Should be one violation detected in AnotherTestClass.cls');
+						expect(firstFileViolations.length).to.equal(2, 'Should be one violation detected in AnotherTestClass.cls');
 						expect(firstFileViolations[0]).to.match(/line="6".+rule="ApexUnitTestClassShouldHaveAsserts"/);
+						expect(firstFileViolations[1]).to.match(/line="7".+rule="UnusedLocalVariable"/);
 
 						const secondFileViolations = results[1].split('<violation');
 						secondFileViolations.shift();
@@ -124,27 +129,27 @@ describe('scanner:run', function () {
 
 						const thirdFileViolations = results[2].split('<violation');
 						thirdFileViolations.shift();
-						expect(thirdFileViolations.length).to.equal(2, 'Should be two violations detected in SomeTestClass.cls');
+						expect(thirdFileViolations.length).to.equal(4, 'Should be four violations detected in SomeTestClass.cls');
 						// We'll check each violation in enough depth to be confident that the expected violations were returned in the
 						// expected order.
 						expect(thirdFileViolations[0]).to.match(/line="11".+rule="ApexUnitTestClassShouldHaveAsserts"/);
 						expect(thirdFileViolations[1]).to.match(/line="19".+rule="ApexUnitTestClassShouldHaveAsserts"/);
+						expect(thirdFileViolations[2]).to.match(/line="20".+rule="UnusedLocalVariable"/);
+						expect(thirdFileViolations[3]).to.match(/line="21".+rule="UnusedLocalVariable"/);
+
+						const fourthFileViolations = results[3].split('<violation');
+						fourthFileViolations.shift();
+						expect(fourthFileViolations.length).to.equal(1, 'Should be one violation detected in SoqlInLoop.cls');
+						expect(fourthFileViolations[0]).to.match(/line="4".+rule="UnusedLocalVariable"/);
 					});
 			});
 
-			describe('Test Case: Running multiple rulesets at once', () => {
-				setupCommandTest
-					.command(['scanner:run', '--target', path.join('test', 'code-fixtures', 'apex', 'AnotherTestClass.cls'),
-						'--ruleset', 'ApexUnit',
-						'--format', 'xml'])
-					.it('--ruleset option shows deprecation warning', ctx => {
-						expect(ctx.stderr).contains(runMessages.getMessage('rulesetDeprecation'));
-					});
+			describe('Test Case: Running multiple categories at once', () => {
 
 				setupCommandTest
 					.command(['scanner:run',
 						'--target', path.join('test', 'code-fixtures', 'apex', 'AnotherTestClass.cls'),
-						'--ruleset', 'ApexUnit,Style',
+						'--category', 'Best Practices,Code Style',
 						'--format', 'xml'
 					])
 					.it('Violations from each rule are logged as an XML', ctx => {
@@ -152,11 +157,13 @@ describe('scanner:run', function () {
 						const violations = ctx.stdout.split('<violation');
 						// The first list item is going to be the header, so we need to pull that off.
 						violations.shift();
-						expect(violations.length).to.equal(2, 'Should be two violations detected in the file');
+						expect(violations.length).to.equal(4, 'Should be four violations detected in the file');
 						// We'll check each violation in enough depth to be confident that the expected violations were returned in the
 						// expected order.
-						expect(violations[0]).to.match(/line="3".+rule="VariableNamingConventions"/);
-						expect(violations[1]).to.match(/line="6".+rule="ApexUnitTestClassShouldHaveAsserts"/);
+						expect(violations[0]).to.match(/line="3".+rule="FieldNamingConventions"/);
+						expect(violations[1]).to.match(/line="3".+rule="VariableNamingConventions"/);
+						expect(violations[2]).to.match(/line="6".+rule="ApexUnitTestClassShouldHaveAsserts"/);
+						expect(violations[3]).to.match(/line="7".+rule="UnusedLocalVariable"/);
 					});
 			});
 
@@ -164,7 +171,7 @@ describe('scanner:run', function () {
 				setupCommandTest
 					.command(['scanner:run',
 						'--target', path.join('test', 'code-fixtures', 'apex', 'SomeTestClass.cls'),
-						'--ruleset', 'ApexUnit',
+						'--category', 'Best Practices',
 						'--outfile', 'testout.xml'
 					])
 					.finally(ctx => {
@@ -187,22 +194,25 @@ describe('scanner:run', function () {
 				const rows = csv.trim().split('\n');
 				rows.shift();
 
-				// There should be two rows.
-				expect(rows.length).to.equal(2, 'Should be two violations detected');
+				expect(rows.length).to.equal(4, 'Should be four violations detected');
 
 				// Split each row by commas, so we'll have each cell.
 				const data = rows.map(val => val.split(','));
 				// Verify that each row looks approximately right.
 				expect(data[0][3]).to.equal('"11"', 'Violation #1 should occur on the expected line');
 				expect(data[1][3]).to.equal('"19"', 'Violation #2 should occur on the expected line');
+				expect(data[2][3]).to.equal('"20"', 'Violation #3 should occur on the expected line');
+				expect(data[3][3]).to.equal('"21"', 'Violation #4 should occur on the expected line');
 				expect(data[0][5]).to.equal('"ApexUnitTestClassShouldHaveAsserts"', 'Violation #1 should be of the expected type');
 				expect(data[1][5]).to.equal('"ApexUnitTestClassShouldHaveAsserts"', 'Violation #2 should be of the expected type');
+				expect(data[2][5]).to.equal('"UnusedLocalVariable"', 'Violation #3 should be of the expected type');
+				expect(data[3][5]).to.equal('"UnusedLocalVariable"', 'Violation #4 should be of the expected type');
 			}
 
 			setupCommandTest
 				.command(['scanner:run',
 					'--target', path.join('test', 'code-fixtures', 'apex', 'SomeTestClass.cls'),
-					'--ruleset', 'ApexUnit',
+					'--category', 'Best Practices',
 					'--format', 'csv'
 				])
 				.it('Properly writes CSV to console', ctx => {
@@ -213,7 +223,7 @@ describe('scanner:run', function () {
 			setupCommandTest
 				.command(['scanner:run',
 					'--target', path.join('test', 'code-fixtures', 'apex', 'SomeTestClass.cls'),
-					'--ruleset', 'ApexUnit',
+					'--category', 'Best Practices',
 					'--outfile', 'testout.csv'
 				])
 				.finally(ctx => {
@@ -236,7 +246,7 @@ describe('scanner:run', function () {
 			setupCommandTest
 				.command(['scanner:run',
 					'--target', path.join('test', 'code-fixtures', 'apex', 'YetAnotherTestClass.cls'),
-					'--ruleset', 'ApexUnit',
+					'--category', 'Best Practices',
 					'--format', 'csv'
 				])
 				.it('When no violations are detected, a message is logged to the console', ctx => {
@@ -246,7 +256,7 @@ describe('scanner:run', function () {
 			setupCommandTest
 				.command(['scanner:run',
 					'--target', path.join('test', 'code-fixtures', 'apex', 'YetAnotherTestClass.cls'),
-					'--ruleset', 'ApexUnit',
+					'--category', 'Best Practices',
 					'--outfile', 'testout.csv'
 				])
 				.finally(ctx => {
@@ -270,19 +280,23 @@ describe('scanner:run', function () {
 				expect(result[1]).to.be.not.null;
 				const rows = JSON.parse(result[1]);
 
-				expect(rows.length).to.equal(2);
+				expect(rows.length).to.equal(4);
 
 				// Verify that each row looks approximately right.
 				expect(rows[0]['line']).to.equal('11', 'Violation #1 should occur on the expected line');
 				expect(rows[1]['line']).to.equal('19', 'Violation #2 should occur on the expected line');
+				expect(rows[2]['line']).to.equal('20', 'Violation #3 should occur on the expected line');
+				expect(rows[3]['line']).to.equal('21', 'Violation #4 should occur on the expected line');
 				expect(rows[0]['ruleName']).to.equal('ApexUnitTestClassShouldHaveAsserts', 'Violation #1 should be of the expected type');
 				expect(rows[1]['ruleName']).to.equal('ApexUnitTestClassShouldHaveAsserts', 'Violation #2 should be of the expected type');
+				expect(rows[2]['ruleName']).to.equal('UnusedLocalVariable', 'Violation #3 should be of the expected type');
+				expect(rows[3]['ruleName']).to.equal('UnusedLocalVariable', 'Violation #4 should be of the expected type');
 			}
 
 			setupCommandTest
 				.command(['scanner:run',
 					'--target', path.join('test', 'code-fixtures', 'apex', 'SomeTestClass.cls'),
-					'--ruleset', 'ApexUnit',
+					'--category', 'Best Practices',
 					'--format', 'html'
 				])
 				.it('Properly writes HTML to console', ctx => {
@@ -293,7 +307,7 @@ describe('scanner:run', function () {
 			setupCommandTest
 				.command(['scanner:run',
 					'--target', path.join('test', 'code-fixtures', 'apex', 'SomeTestClass.cls'),
-					'--ruleset', 'ApexUnit',
+					'--category', 'Best Practices',
 					'--outfile', outputFile
 				])
 				.finally(ctx => {
@@ -316,7 +330,7 @@ describe('scanner:run', function () {
 			setupCommandTest
 				.command(['scanner:run',
 					'--target', path.join('test', 'code-fixtures', 'apex', 'YetAnotherTestClass.cls'),
-					'--ruleset', 'ApexUnit',
+					'--category', 'Best Practices',
 					'--format', 'html'
 				])
 				.it('When no violations are detected, a message is logged to the console', ctx => {
@@ -326,7 +340,7 @@ describe('scanner:run', function () {
 			setupCommandTest
 				.command(['scanner:run',
 					'--target', path.join('test', 'code-fixtures', 'apex', 'YetAnotherTestClass.cls'),
-					'--ruleset', 'ApexUnit',
+					'--category', 'Best Practices',
 					'--outfile', outputFile
 				])
 				.finally(ctx => {
@@ -349,15 +363,17 @@ describe('scanner:run', function () {
 				expect(output.length).to.equal(1, 'Should only be violations from one engine');
 				expect(output[0].engine).to.equal('pmd', 'Engine should be PMD');
 
-				expect(output[0].violations.length).to.equal(2, 'Should be 2 violations');
+				expect(output[0].violations.length).to.equal(4, 'Should be 4 violations');
 				expect(output[0].violations[0].line).to.equal('11', 'Violation #1 should occur on the expected line');
 				expect(output[0].violations[1].line).to.equal('19', 'Violation #2 should occur on the expected line');
+				expect(output[0].violations[2].line).to.equal('20', 'Violation #3 should occur on the expected line');
+				expect(output[0].violations[3].line).to.equal('21', 'Violation #4 should occur on the expected line');
 			}
 
 			setupCommandTest
 				.command(['scanner:run',
 					'--target', path.join('test', 'code-fixtures', 'apex', 'SomeTestClass.cls'),
-					'--ruleset', 'ApexUnit',
+					'--category', 'Best Practices',
 					'--format', 'json'
 				])
 				.it('Properly writes JSON to console', ctx => {
@@ -367,7 +383,7 @@ describe('scanner:run', function () {
 			setupCommandTest
 				.command(['scanner:run',
 					'--target', path.join('test', 'code-fixtures', 'apex', 'SomeTestClass.cls'),
-					'--ruleset', 'ApexUnit',
+					'--category', 'Best Practices',
 					'--outfile', 'testout.json'
 				])
 				.finally(ctx => {
@@ -390,7 +406,7 @@ describe('scanner:run', function () {
 			setupCommandTest
 				.command(['scanner:run',
 					'--target', path.join('test', 'code-fixtures', 'apex', 'YetAnotherTestClass.cls'),
-					'--ruleset', 'ApexUnit',
+					'--category', 'Best Practices',
 					'--format', 'json'
 				])
 				.it('When no violations are detected, a message is logged to the console', ctx => {
@@ -400,7 +416,7 @@ describe('scanner:run', function () {
 			setupCommandTest
 				.command(['scanner:run',
 					'--target', path.join('test', 'code-fixtures', 'apex', 'YetAnotherTestClass.cls'),
-					'--ruleset', 'ApexUnit',
+					'--category', 'Best Practices',
 					'--outfile', 'testout.json'
 				])
 				.finally(ctx => {
@@ -422,7 +438,7 @@ describe('scanner:run', function () {
 			setupCommandTest
 				.command(['scanner:run',
 					'--target', path.join('test', 'code-fixtures', 'apex', 'SomeTestClass.cls'),
-					'--ruleset', 'ApexUnit',
+					'--category', 'Best Practices',
 					'--format', 'table'
 				])
 				.it('Properly writes table to the console', ctx => {
@@ -433,12 +449,14 @@ describe('scanner:run', function () {
 					// Assert rows have the right error on the right line.
 					expect(rows.find(r => r.indexOf("SomeTestClass.cls:11") > 0)).to.contain('Apex unit tests should System.assert()');
 					expect(rows.find(r => r.indexOf("SomeTestClass.cls:19") > 0)).to.contain('Apex unit tests should System.assert()');
+					expect(rows.find(r => r.indexOf("SomeTestClass.cls:20") > 0)).to.contain('Variable \'d1\' defined but not used');
+					expect(rows.find(r => r.indexOf("SomeTestClass.cls:21") > 0)).to.contain('Variable \'d2\' defined but not used');
 				});
 
 			setupCommandTest
 				.command(['scanner:run',
 					'--target', path.join('test', 'code-fixtures', 'apex', 'YetAnotherTestClass.cls'),
-					'--ruleset', 'ApexUnit',
+					'--category', 'Best Practices',
 					'--format', 'table'
 				])
 				.it('When no violations are detected, a message is logged to the console', ctx => {
@@ -450,7 +468,7 @@ describe('scanner:run', function () {
 			setupCommandTest
 				.command(['scanner:run',
 					'--target', path.join('test', 'code-fixtures', 'apex', 'SomeTestClass.cls'),
-					'--ruleset', 'ApexUnit',
+					'--category', 'Best Practices',
 					'--json'
 				])
 				.it('--json flag uses default format of JSON', ctx => {
@@ -461,15 +479,17 @@ describe('scanner:run', function () {
 					expect(result.length).to.equal(1, 'Should only be violations from one engine');
 					expect(result[0].engine).to.equal('pmd', 'Engine should be PMD');
 
-					expect(result[0].violations.length).to.equal(2, 'Should be 2 violations');
+					expect(result[0].violations.length).to.equal(4, 'Should be 4 violations');
 					expect(result[0].violations[0].line).to.equal('11', 'Violation #1 should occur on the expected line');
 					expect(result[0].violations[1].line).to.equal('19', 'Violation #2 should occur on the expected line');
+					expect(result[0].violations[2].line).to.equal('20', 'Violation #3 should occur on the expected line');
+					expect(result[0].violations[3].line).to.equal('21', 'Violation #4 should occur on the expected line');
 				});
 
 			setupCommandTest
 				.command(['scanner:run',
 					'--target', path.join('test', 'code-fixtures', 'apex', 'SomeTestClass.cls'),
-					'--ruleset', 'ApexUnit',
+					'--category', 'Best Practices',
 					'--format', 'xml',
 					'--json'
 				])
@@ -480,18 +500,19 @@ describe('scanner:run', function () {
 					const violations = output.result.split('<violation');
 					// The first list item is going to be the header, so we need to pull that off.
 					violations.shift();
-					// There should be two violations.
-					expect(violations.length).to.equal(2, 'Should be two violations detected in the file');
+					expect(violations.length).to.equal(4, 'Should be four violations detected in the file');
 					// We'll check each violation in enough depth to be confident that the expected violations were returned in the
 					// expected order.
 					expect(violations[0]).to.match(/line="11".+rule="ApexUnitTestClassShouldHaveAsserts"/);
 					expect(violations[1]).to.match(/line="19".+rule="ApexUnitTestClassShouldHaveAsserts"/);
+					expect(violations[2]).to.match(/line="20".+rule="UnusedLocalVariable"/);
+					expect(violations[3]).to.match(/line="21".+rule="UnusedLocalVariable"/);
 				});
 
 			setupCommandTest
 				.command(['scanner:run',
 					'--target', path.join('test', 'code-fixtures', 'apex', 'SomeTestClass.cls'),
-					'--ruleset', 'ApexUnit',
+					'--category', 'Best Practices',
 					'--outfile', 'testout.xml',
 					'--json'
 				])
@@ -514,17 +535,19 @@ describe('scanner:run', function () {
 					const violations = fileContents.split('<violation');
 					// The first list item is going to be the header, so we need to pull that off.
 					violations.shift();
-					expect(violations.length).to.equal(2, 'Should be two violations detected in the file');
+					expect(violations.length).to.equal(4, 'Should be four violations detected in the file');
 					// We'll check each violation in enough depth to be confident that the expected violations were returned in the
 					// expected order.
 					expect(violations[0]).to.match(/line="11".+rule="ApexUnitTestClassShouldHaveAsserts"/);
 					expect(violations[1]).to.match(/line="19".+rule="ApexUnitTestClassShouldHaveAsserts"/);
+					expect(violations[2]).to.match(/line="20".+rule="UnusedLocalVariable"/);
+					expect(violations[3]).to.match(/line="21".+rule="UnusedLocalVariable"/);
 				});
 
 			setupCommandTest
 				.command(['scanner:run',
 					'--target', path.join('test', 'code-fixtures', 'apex', 'YetAnotherTestClass.cls'),
-					'--ruleset', 'ApexUnit',
+					'--category', 'Best Practices',
 					'--json'
 				])
 				.it('--json flag wraps message about no violations occuring', ctx => {
@@ -539,7 +562,7 @@ describe('scanner:run', function () {
 			setupCommandTest
 				.command(['scanner:run',
 					'--target', path.join('test', 'code-fixtures', 'apex', 'YetAnotherTestClass.cls'),
-					'--ruleset', 'ApexUnit',
+					'--category', 'Best Practices',
 					'--format', 'xml',
 					'--violations-cause-error'
 				])
@@ -551,7 +574,7 @@ describe('scanner:run', function () {
 			setupCommandTest
 				.command(['scanner:run',
 					'--target', path.join('test', 'code-fixtures', 'apex', 'SomeTestClass.cls'),
-					'--ruleset', 'ApexUnit',
+					'--category', 'Best Practices',
 					'--format', 'table',
 					'--violations-cause-error'
 				])
@@ -563,6 +586,8 @@ describe('scanner:run', function () {
 					// Assert rows have the right error on the right line.
 					expect(rows.find(r => r.indexOf("SomeTestClass.cls:11") > 0)).to.contain('Apex unit tests should System.assert()');
 					expect(rows.find(r => r.indexOf("SomeTestClass.cls:19") > 0)).to.contain('Apex unit tests should System.assert()');
+					expect(rows.find(r => r.indexOf("SomeTestClass.cls:20") > 0)).to.contain('Variable \'d1\' defined but not used');
+					expect(rows.find(r => r.indexOf("SomeTestClass.cls:21") > 0)).to.contain('Variable \'d2\' defined but not used');
 					expect(ctx.stderr).to.contain(runMessages.getMessage('output.pleaseSeeAbove'), 'Error should be present');
 				});
 		});
@@ -699,7 +724,7 @@ describe('scanner:run', function () {
 						.command(['scanner:run',
 							// NOTE: When running the command for real, a glob would have to be wrapped in SINGLE-QUOTES. But the tests sidestep that, somehow.
 							'--target', 'test/code-fixtures/apex/Some*.cls',
-							'--ruleset', 'ApexUnit',
+							'--category', 'Best Practices',
 							'--format', 'xml'
 						])
 						.it('Glob is resolved to files, and those files are evaluated', ctx => {
@@ -720,11 +745,13 @@ describe('scanner:run', function () {
 
 							const secondFileViolations = results[1].split('<violation');
 							secondFileViolations.shift();
-							expect(secondFileViolations.length).to.equal(2, 'Should be two violations detected in SomeTestClass.cls');
+							expect(secondFileViolations.length).to.equal(4, 'Should be four violations detected in SomeTestClass.cls');
 							// We'll check each violation in enough depth to be confident that the expected violations were returned in the
 							// expected order.
 							expect(secondFileViolations[0]).to.match(/line="11".+rule="ApexUnitTestClassShouldHaveAsserts"/);
 							expect(secondFileViolations[1]).to.match(/line="19".+rule="ApexUnitTestClassShouldHaveAsserts"/);
+							expect(secondFileViolations[2]).to.match(/line="20".+rule="UnusedLocalVariable"/);
+							expect(secondFileViolations[3]).to.match(/line="21".+rule="UnusedLocalVariable"/);
 						});
 				});
 
@@ -733,7 +760,7 @@ describe('scanner:run', function () {
 						.command(['scanner:run',
 							// NOTE: When running the command for real, a glob would have to be wrapped in SINGLE-QUOTES. But the tests sidestep that, somehow.
 							'--target', 'test/code-fixtures/apex/A*.cls,test/code-fixtures/apex/S*.cls',
-							'--ruleset', 'ApexUnit',
+							'--category', 'Best Practices',
 							'--format', 'xml'
 						])
 						.it('Files matching even a single positive glob are evaluated', ctx => {
@@ -742,16 +769,18 @@ describe('scanner:run', function () {
 							// The first list item is going to be the header, so we need to pull that off.
 							results.shift();
 							// Verify that each set of violations corresponds to the expected file.
-							expect(results.length).to.equal(3, 'Only three files should have violated the rules');
+							expect(results.length).to.equal(4, 'Only four files should have violated the rules');
 							expect(results[0]).to.match(/file="test(\/|\\)code-fixtures(\/|\\)apex(\/|\\)AnotherTestClass.cls"/);
 							expect(results[1]).to.match(/file="test(\/|\\)code-fixtures(\/|\\)apex(\/|\\)SomeOtherTestClass.cls"/);
 							expect(results[2]).to.match(/file="test(\/|\\)code-fixtures(\/|\\)apex(\/|\\)SomeTestClass.cls"/);
+							expect(results[3]).to.match(/file="test(\/|\\)code-fixtures(\/|\\)apex(\/|\\)SoqlInLoop.cls"/);
 
 							// Now, split each file's violations by the <violation> tag so we can inspect individual violations.
 							const firstFileViolations = results[0].split('<violation');
 							firstFileViolations.shift();
-							expect(firstFileViolations.length).to.equal(1, 'Should be one violation detected in AnotherTestClass.cls');
+							expect(firstFileViolations.length).to.equal(2, 'Should be two violations detected in AnotherTestClass.cls');
 							expect(firstFileViolations[0]).to.match(/line="6".+rule="ApexUnitTestClassShouldHaveAsserts"/);
+							expect(firstFileViolations[1]).to.match(/line="7".+rule="UnusedLocalVariable"/);
 
 							const secondFileViolations = results[1].split('<violation');
 							secondFileViolations.shift();
@@ -760,11 +789,18 @@ describe('scanner:run', function () {
 
 							const thirdFileViolations = results[2].split('<violation');
 							thirdFileViolations.shift();
-							expect(thirdFileViolations.length).to.equal(2, 'Should be two violations detected in SomeTestClass.cls');
+							expect(thirdFileViolations.length).to.equal(4, 'Should be four violations detected in SomeTestClass.cls');
 							// We'll check each violation in enough depth to be confident that the expected violations were returned in the
 							// expected order.
 							expect(thirdFileViolations[0]).to.match(/line="11".+rule="ApexUnitTestClassShouldHaveAsserts"/);
 							expect(thirdFileViolations[1]).to.match(/line="19".+rule="ApexUnitTestClassShouldHaveAsserts"/);
+							expect(thirdFileViolations[2]).to.match(/line="20".+rule="UnusedLocalVariable"/);
+							expect(thirdFileViolations[3]).to.match(/line="21".+rule="UnusedLocalVariable"/);
+
+							const fourthFileViolations = results[3].split('<violation');
+							fourthFileViolations.shift();
+							expect(fourthFileViolations.length).to.equal(1, 'Should be one violation detected in SoqlInLoop.cls');
+							expect(fourthFileViolations[0]).to.match(/line="4".+rule="UnusedLocalVariable"/);
 						});
 				});
 			});
@@ -775,7 +811,7 @@ describe('scanner:run', function () {
 						// NOTE: When running the command for real, a glob would have to be wrapped in SINGLE-QUOTES.
 						// But the tests sidestep that somehow.
 						'--target', 'test/code-fixtures/apex/*Class.cls,!**/A*,!**/*Other*',
-						'--ruleset', 'ApexUnit',
+						'--category', 'Best Practices',
 						'--format', 'xml'
 					])
 					.it('When mixing negative and positive globs, files must match ALL negative globs to be evaluated', ctx => {
@@ -790,11 +826,13 @@ describe('scanner:run', function () {
 						// Now, split each file's violations by the <violation> tag so we can inspect individual violations.
 						const fileViolations = results[0].split('<violation');
 						fileViolations.shift();
-						expect(fileViolations.length).to.equal(2, 'Should be two violations detected in SomeTestClass.cls');
+						expect(fileViolations.length).to.equal(4, 'Should be four violations detected in SomeTestClass.cls');
 						// We'll check each violation in enough depth to be confident that the expected violations were returned in the
 						// expected order.
 						expect(fileViolations[0]).to.match(/line="11".+rule="ApexUnitTestClassShouldHaveAsserts"/);
 						expect(fileViolations[1]).to.match(/line="19".+rule="ApexUnitTestClassShouldHaveAsserts"/);
+						expect(fileViolations[2]).to.match(/line="20".+rule="UnusedLocalVariable"/);
+						expect(fileViolations[3]).to.match(/line="21".+rule="UnusedLocalVariable"/);
 					});
 
 				setupCommandTest
@@ -802,7 +840,7 @@ describe('scanner:run', function () {
 						// NOTE: When running the command for real, a glob would have to be wrapped in SINGLE-QUOTES.
 						// But the tests sidestep that somehow.
 						'--target', 'test/code-fixtures/apex/*Class.cls,!test/code-fixtures/apex/A*,!./test/code-fixtures/apex/*Other*',
-						'--ruleset', 'ApexUnit',
+						'--category', 'Best Practices',
 						'--format', 'xml'
 					])
 					.it('Relative negative globs are properly processed', ctx => {
@@ -817,11 +855,13 @@ describe('scanner:run', function () {
 						// Now, split each file's violations by the <violation> tag so we can inspect individual violations.
 						const fileViolations = results[0].split('<violation');
 						fileViolations.shift();
-						expect(fileViolations.length).to.equal(2, 'Should be two violations detected in SomeTestClass.cls');
+						expect(fileViolations.length).to.equal(4, 'Should be four violations detected in SomeTestClass.cls');
 						// We'll check each violation in enough depth to be confident that the expected violations were returned in the
 						// expected order.
 						expect(fileViolations[0]).to.match(/line="11".+rule="ApexUnitTestClassShouldHaveAsserts"/);
 						expect(fileViolations[1]).to.match(/line="19".+rule="ApexUnitTestClassShouldHaveAsserts"/);
+						expect(fileViolations[2]).to.match(/line="20".+rule="UnusedLocalVariable"/);
+						expect(fileViolations[3]).to.match(/line="21".+rule="UnusedLocalVariable"/);
 					});
 
 				setupCommandTest
@@ -829,7 +869,7 @@ describe('scanner:run', function () {
 						// NOTE: When running the command for real, a glob would have to be wrapped in SINGLE-QUOTES.
 						// But the tests sidestep that somehow.
 						'--target', 'test/code-fixtures/apex,!**/A*,!**/*Other*',
-						'--ruleset', 'ApexUnit',
+						'--category', 'Best Practices',
 						'--format', 'xml'
 					])
 					.it('When mixing negative globs and directories, files must match ALL negative globs to be evaluated', ctx => {
@@ -838,17 +878,25 @@ describe('scanner:run', function () {
 						// The first list item is going to be the header, so we need to pull that off.
 						results.shift();
 						// Verify that each set of violations corresponds to the expected file.
-						expect(results.length).to.equal(1, 'Only one file should have violated the rules');
+						expect(results.length).to.equal(2, 'Only two file should have violated the rules');
 						expect(results[0]).to.match(/file="test(\/|\\)code-fixtures(\/|\\)apex(\/|\\)SomeTestClass.cls"/);
+						expect(results[1]).to.match(/file="test(\/|\\)code-fixtures(\/|\\)apex(\/|\\)SoqlInLoop.cls"/);
 
 						// Now, split each file's violations by the <violation> tag so we can inspect individual violations.
-						const fileViolations = results[0].split('<violation');
-						fileViolations.shift();
-						expect(fileViolations.length).to.equal(2, 'Should be two violations detected in SomeTestClass.cls');
+						const firstFileViolations = results[0].split('<violation');
+						firstFileViolations.shift();
+						expect(firstFileViolations.length).to.equal(4, 'Should be four violations detected in SomeTestClass.cls');
 						// We'll check each violation in enough depth to be confident that the expected violations were returned in the
 						// expected order.
-						expect(fileViolations[0]).to.match(/line="11".+rule="ApexUnitTestClassShouldHaveAsserts"/);
-						expect(fileViolations[1]).to.match(/line="19".+rule="ApexUnitTestClassShouldHaveAsserts"/);
+						expect(firstFileViolations[0]).to.match(/line="11".+rule="ApexUnitTestClassShouldHaveAsserts"/);
+						expect(firstFileViolations[1]).to.match(/line="19".+rule="ApexUnitTestClassShouldHaveAsserts"/);
+						expect(firstFileViolations[2]).to.match(/line="20".+rule="UnusedLocalVariable"/);
+						expect(firstFileViolations[3]).to.match(/line="21".+rule="UnusedLocalVariable"/);
+
+						const secondFileViolations = results[1].split('<violation');
+						secondFileViolations.shift();
+						expect(secondFileViolations.length).to.equal(1, 'Should be one violation detected in SoqlInLoop.cls');
+						expect(secondFileViolations[0]).to.match(/line="4".+rule="UnusedLocalVariable"/);
 					});
 			});
 
@@ -857,7 +905,7 @@ describe('scanner:run', function () {
 				setupCommandTest
 					.command(['scanner:run',
 						'--target', pathWithTilde,
-						'--ruleset', 'ApexUnit',
+						'--category', 'Best Practices',
 						'--format', 'xml'
 					])
 					.it('Tilde is expanded to full directory', ctx => {
@@ -865,11 +913,13 @@ describe('scanner:run', function () {
 						const violations = ctx.stdout.split('<violation');
 						// The first list item is going to be the header, so we need to pull that off.
 						violations.shift();
-						expect(violations.length).to.equal(2, 'Should be two violations detected in the file');
+						expect(violations.length).to.equal(4, 'Should be four violations detected in the file');
 						// We'll check each violation in enough depth to be confident that the expected violations were returned in the
 						// expected order.
 						expect(violations[0]).to.match(/line="11".+rule="ApexUnitTestClassShouldHaveAsserts"/);
 						expect(violations[1]).to.match(/line="19".+rule="ApexUnitTestClassShouldHaveAsserts"/);
+						expect(violations[2]).to.match(/line="20".+rule="UnusedLocalVariable"/);
+						expect(violations[3]).to.match(/line="21".+rule="UnusedLocalVariable"/);
 					});
 			});
 		});
@@ -879,7 +929,7 @@ describe('scanner:run', function () {
 				setupCommandTest
 					.command(['scanner:run',
 						'--target', path.join('test', 'code-fixtures', 'apex', 'SomeTestClass.cls'),
-						'--ruleset', 'ApexUnit'
+						'--category', 'Best Practices'
 					])
 					.it('When no format is specified, we default to a TABLE', ctx => {
 						// Split the output by newline characters and throw away the first two rows, which are the column names and a separator.
@@ -891,6 +941,8 @@ describe('scanner:run', function () {
 						// Assert rows have the right error on the right line.
 						expect(rows.find(r => r.indexOf("SomeTestClass.cls:11") > 0)).to.contain('Apex unit tests should System.assert()');
 						expect(rows.find(r => r.indexOf("SomeTestClass.cls:19") > 0)).to.contain('Apex unit tests should System.assert()');
+						expect(rows.find(r => r.indexOf("SomeTestClass.cls:20") > 0)).to.contain('Variable \'d1\' defined but not used');
+						expect(rows.find(r => r.indexOf("SomeTestClass.cls:21") > 0)).to.contain('Variable \'d2\' defined but not used');
 					});
 			});
 
@@ -916,7 +968,7 @@ describe('scanner:run', function () {
 				const pathToGoodSyntax = path.join('test', 'code-fixtures', 'apex', 'SomeTestClass.cls');
 				setupCommandTest
 					.command(['scanner:run',
-						'--ruleset', 'ApexUnit',
+						'--category', 'Best Practices',
 						'--target', pathToBadSyntax,
 						'--format', 'xml'
 					])
@@ -930,7 +982,7 @@ describe('scanner:run', function () {
 
 				setupCommandTest
 					.command(['scanner:run',
-						'--ruleset', 'ApexUnit',
+						'--category', 'Best Practices',
 						'--target', `${pathToBadSyntax},${pathToGoodSyntax}`,
 						'--format', 'xml'
 					])
@@ -940,11 +992,13 @@ describe('scanner:run', function () {
 						const violations = ctx.stdout.split('<violation');
 						// The first list item is going to be the header, so we need to pull that off.
 						violations.shift();
-						expect(violations.length).to.equal(2, 'Should be two violations detected in the file');
+						expect(violations.length).to.equal(4, 'Should be four violations detected in the file');
 						// We'll check each violation in enough depth to be confident that the expected violations were returned in the
 						// expected order.
 						expect(violations[0]).to.match(/line="11".+rule="ApexUnitTestClassShouldHaveAsserts"/);
 						expect(violations[1]).to.match(/line="19".+rule="ApexUnitTestClassShouldHaveAsserts"/);
+						expect(violations[2]).to.match(/line="20".+rule="UnusedLocalVariable"/);
+						expect(violations[3]).to.match(/line="21".+rule="UnusedLocalVariable"/);
 						// stderr should include the warning indicating that the file was skipped.
 						expect(ctx.stderr).to.contain(eventMessages.getMessage('warning.pmdSkippedFile', [path.resolve(pathToBadSyntax), '']), 'Warning should be displayed');
 					});
@@ -953,19 +1007,19 @@ describe('scanner:run', function () {
 
 		describe('Error handling', () => {
 			setupCommandTest
-				.command(['scanner:run', '--ruleset', 'ApexUnit', '--format', 'xml'])
+				.command(['scanner:run', '--category', 'Best Practices', '--format', 'xml'])
 				.it('Error thrown when no target is specified', ctx => {
 					expect(ctx.stderr).to.contain(`ERROR running scanner:run:  ${runMessages.getMessage('validations.mustTargetSomething')}`);
 				});
 
 			setupCommandTest
-				.command(['scanner:run', '--target', 'path/that/does/not/matter', '--ruleset', 'ApexUnit', '--outfile', 'NotAValidFileName'])
+				.command(['scanner:run', '--target', 'path/that/does/not/matter', '--category', 'Best Practicse', '--outfile', 'NotAValidFileName'])
 				.it('Error thrown when output file is malformed', ctx => {
 					expect(ctx.stderr).to.contain(`ERROR running scanner:run:  ${runMessages.getMessage('validations.outfileMustBeValid')}`);
 				});
 
 			setupCommandTest
-				.command(['scanner:run', '--target', 'path/that/does/not/matter', '--ruleset', 'ApexUnit', '--outfile', 'badtype.pdf'])
+				.command(['scanner:run', '--target', 'path/that/does/not/matter', '--category', 'Best Practices', '--outfile', 'badtype.pdf'])
 				.it('Error thrown when output file is unsupported type', ctx => {
 					expect(ctx.stderr).to.contain(`ERROR running scanner:run:  ${runMessages.getMessage('validations.outfileMustBeSupportedType')}`);
 				});
