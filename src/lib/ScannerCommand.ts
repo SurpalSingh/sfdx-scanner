@@ -11,11 +11,6 @@ export abstract class ScannerCommand extends SfdxCommand {
 			filters.push(new RuleFilter(FilterType.CATEGORY, this.flags.category));
 		}
 
-		// Create a filter for any provided rulesets.
-		if (this.flags.ruleset && this.flags.ruleset.length) {
-			filters.push(new RuleFilter(FilterType.RULESET, this.flags.ruleset));
-		}
-
 		// Create a filter for any provided languages.
 		if (this.flags.language && this.flags.language.length) {
 			filters.push(new RuleFilter(FilterType.LANGUAGE, this.flags.language));

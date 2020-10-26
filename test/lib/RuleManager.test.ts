@@ -99,30 +99,6 @@ describe('RuleManager', () => {
 			});
 		});
 
-		describe('Test Case: Filtering by ruleset only', () => {
-			it('Filtering by a single ruleset returns only the rules in that ruleset', async () => {
-				// Set up our filter array.
-				const filters = [new RuleFilter(FilterType.RULESET, ['Braces'])];
-
-				// Pass the filter array into the manager.
-				const matchingRules = await ruleManager.getRulesMatchingCriteria(filters);
-
-				// Expect the right number of rules to be returned.
-				expect(matchingRules).to.have.lengthOf(3, 'Exactly 8 rules are in the "Braces" ruleset');
-			});
-
-			it('Filtering by multiple rulesets returns any rule in either ruleset', async () => {
-				// Set up our filter array.
-				const filters = [new RuleFilter(FilterType.RULESET, ['Braces', 'Best Practices'])];
-
-				// Pass the filter array into the manager.
-				const matchingRules = await ruleManager.getRulesMatchingCriteria(filters);
-
-				// Expect the right number of rules to be returned.
-				expect(matchingRules).to.have.lengthOf(6, 'Exactly 6 rules in enabled engines are in the "Braces" or "Best Practices" rulesets');
-			});
-		});
-
 		describe('Test Case: Filtering by language', () => {
 			it('Filtering by a single language returns only rules targeting that language', async () => {
 				// Set up our filter array.
