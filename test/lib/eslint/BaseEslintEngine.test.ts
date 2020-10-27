@@ -255,7 +255,6 @@ function getDummyRule(myEngineName = engineName): Rule {
 		categories: ["some category"],
 		languages: ["language"],
 		sourcepackage: "MySourcePackage",
-		rulesets: [],
 		defaultEnabled: true
 	}
 }

@@ -4,7 +4,6 @@ export type Rule = {
 	name: string;
 	description: string;
 	categories: string[];
-	rulesets: string[];
 	languages: string[];
 	defaultEnabled: boolean;
 	url?: string;
@@ -52,7 +51,6 @@ export type RuleViolation = {
 export type Catalog = {
 	rules: Rule[];
 	categories: RuleGroup[];
-	rulesets: RuleGroup[];
 };
 
 export type RuleEvent = {

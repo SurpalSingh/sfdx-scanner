@@ -139,8 +139,7 @@ export abstract class BaseEslintEngine implements RuleEngine {
 
 			this.catalog = {
 				categories: Array.from(categoryMap.values()),
-				rules: rules,
-				rulesets: []
+				rules: rules
 			};
 		}
 
@@ -156,7 +155,6 @@ export abstract class BaseEslintEngine implements RuleEngine {
 			name: key,
 			description: docs.description,
 			categories: [docs.category],
-			rulesets: [docs.category],
 			languages: [...this.strategy.getLanguages()],
 			defaultEnabled: docs.recommended,
 			url: docs.url

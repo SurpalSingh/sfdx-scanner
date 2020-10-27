@@ -1,7 +1,6 @@
 export enum FilterType {
 	RULENAME,
 	CATEGORY,
-	RULESET,
 	LANGUAGE,
 	SOURCEPACKAGE,
 	ENGINE

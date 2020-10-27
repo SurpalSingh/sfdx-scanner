@@ -21,7 +21,6 @@ const retireJsCatalog: Catalog = {
 		name: INSECURE_BUNDLED_DEPS,
 		description: 'Identify bundled libraries/modules with known vulnerabilities.',
 		categories: ['Insecure Dependencies'],
-		rulesets: [],
 		languages: ['javascript'],
 		defaultEnabled: true
 	}],
@@ -29,8 +28,7 @@ const retireJsCatalog: Catalog = {
 		engine: ENGINE.RETIRE_JS.valueOf(),
 		name: 'Insecure Dependencies',
 		paths: []
-	}],
-	rulesets: []
+	}]
 };
 
 /**
